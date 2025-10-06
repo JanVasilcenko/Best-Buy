@@ -1,6 +1,7 @@
 package com.onlinestore.BestShop.config;
 
 import com.onlinestore.BestShop.filters.JwtAuthenticationFilter;
+import com.onlinestore.BestShop.model.Role;
 import com.onlinestore.BestShop.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -53,11 +54,15 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(c -> c
                                 .requestMatchers("/users").permitAll()
+                                .requestMatchers("/admin/*").hasRole(Role.ADMIN.name())
                                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/auth/refresh").permitAll()
                                 .anyRequest().authenticated())
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling(c -> c.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)));
+                .exceptionHandling(c -> {
+                    c.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
+                    c.accessDeniedHandler(((request, response, accessDeniedException) -> response.setStatus(HttpStatus.FORBIDDEN.value())));
+                });
         return http.build();
     }
 }

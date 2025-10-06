@@ -40,8 +40,10 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
         );
 
-        String token = jwtService.generateAccessToken(loginRequest.getEmail());
-        String refreshToken = jwtService.generateRefreshToken(loginRequest.getEmail());
+        User user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow();
+
+        String token = jwtService.generateAccessToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user);
 
         Cookie cookie = new Cookie("refreshToken", refreshToken);
         cookie.setHttpOnly(true);
@@ -60,7 +62,7 @@ public class AuthController {
 
         String email = jwtService.getEmailFromToken(refreshToken);
         User user = userRepository.findByEmail(email).orElseThrow();
-        String accessToken = jwtService.generateAccessToken(user.getEmail());
+        String accessToken = jwtService.generateAccessToken(user);
 
         return ResponseEntity.ok(new JwtResponse(accessToken));
     }

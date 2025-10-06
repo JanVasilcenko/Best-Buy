@@ -1,5 +1,7 @@
 package com.onlinestore.BestShop.services;
 
+import com.onlinestore.BestShop.model.Role;
+import com.onlinestore.BestShop.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -20,17 +22,18 @@ public class JwtService {
     @Value("${spring.jwt.accessTokenExpiration}")
     private int accessTokenExpiration;
 
-    public String generateRefreshToken(String email){
-        return generate(email, refreshTokenExpiration);
+    public String generateRefreshToken(User user){
+        return generate(user, refreshTokenExpiration);
     }
 
-    public String generateAccessToken(String email){
-        return generate(email, accessTokenExpiration);
+    public String generateAccessToken(User user){
+        return generate(user, accessTokenExpiration);
     }
 
-    private String generate(String email, long tokenExpiration) {
+    private String generate(User user, long tokenExpiration) {
         return Jwts.builder()
-                .subject(email)
+                .subject(user.getEmail())
+                .claim("role", user.getRole())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 1000 * tokenExpiration))
                 .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
@@ -56,5 +59,9 @@ public class JwtService {
 
     public String getEmailFromToken(String token){
         return getClaimsFromToken(token).getSubject();
+    }
+
+    public Role getRoleFromToken(String token){
+        return Role.valueOf(getClaimsFromToken(token).get("role", String.class));
     }
 }

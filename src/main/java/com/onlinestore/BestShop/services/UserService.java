@@ -2,6 +2,7 @@ package com.onlinestore.BestShop.services;
 
 import com.onlinestore.BestShop.exceptions.DuplicateUserException;
 import com.onlinestore.BestShop.model.RegisterUserRequest;
+import com.onlinestore.BestShop.model.Role;
 import com.onlinestore.BestShop.model.User;
 import com.onlinestore.BestShop.persistence.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class UserService {
          User newlyRegisteredUser = new User();
          newlyRegisteredUser.setEmail(registerUserRequest.getEmail());
          newlyRegisteredUser.setPasswordHash(passwordEncoder.encode(registerUserRequest.getPassword()));
+         newlyRegisteredUser.setRole(Role.USER);
 
          userRepository.save(newlyRegisteredUser);
     }
