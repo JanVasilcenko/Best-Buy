@@ -1,11 +1,12 @@
 package com.onlinestore.BestShop.controllers;
 
+import com.onlinestore.BestShop.exceptions.DuplicateUserException;
 import com.onlinestore.BestShop.exceptions.UnsuccessfulLoginException;
-import com.onlinestore.BestShop.model.JwtResponse;
-import com.onlinestore.BestShop.model.LoginRequest;
-import com.onlinestore.BestShop.model.User;
+import com.onlinestore.BestShop.model.*;
 import com.onlinestore.BestShop.persistence.UserRepository;
+import com.onlinestore.BestShop.services.AuthService;
 import com.onlinestore.BestShop.services.JwtService;
+import com.onlinestore.BestShop.services.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -13,21 +14,20 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping("api/v1/auth")
 public class AuthController {
 
-    private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final UserRepository userRepository;
+    private final UserService userService;
+    private final AuthService authService;
 
     @Value("${spring.jwt.refreshTokenExpiration}")
     private int refreshTokenExpiration;
@@ -36,41 +36,38 @@ public class AuthController {
     public ResponseEntity<JwtResponse> login(@RequestBody @Valid LoginRequest loginRequest,
                                              HttpServletResponse response){
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
-        );
+        LoginResponse loginResponse = authService.login(loginRequest);
 
-        User user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow();
-
-        String token = jwtService.generateAccessToken(user);
-        String refreshToken = jwtService.generateRefreshToken(user);
-
-        Cookie cookie = new Cookie("refreshToken", refreshToken);
+        Cookie cookie = new Cookie("refreshToken", loginResponse.getRefreshToken());
         cookie.setHttpOnly(true);
         cookie.setPath("/auth/refresh");
         cookie.setMaxAge(refreshTokenExpiration);
         cookie.setSecure(true);
         response.addCookie(cookie);
 
-        return ResponseEntity.ok(new JwtResponse(token));
+        return ResponseEntity.ok(new JwtResponse(loginResponse.getAccessToken()));
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser(@RequestBody @Valid RegisterUserRequest registerUserRequest){
+        userService.registerUser(registerUserRequest);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/refresh")
     public ResponseEntity<JwtResponse> refresh(@CookieValue(value = "refreshToken") String refreshToken){
-        if(!jwtService.validateToken(refreshToken))
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-
-        String email = jwtService.getEmailFromToken(refreshToken);
-        User user = userRepository.findByEmail(email).orElseThrow();
-        String accessToken = jwtService.generateAccessToken(user);
-
+        String accessToken = authService.refreshAccessToken(refreshToken);
         return ResponseEntity.ok(new JwtResponse(accessToken));
     }
 
-    @PostMapping("/validate")
-    public boolean validate(@RequestHeader("Authorization") String authHeader) {
-        String token = authHeader.replace("Bearer ", "");
-        return jwtService.validateToken(token);
+    @GetMapping("/me")
+    public ResponseEntity<User> me(){
+        User currentUser = authService.getCurrentUser();
+
+        if (currentUser == null)
+            return ResponseEntity.notFound().build();
+
+        return ResponseEntity.ok(currentUser);
     }
 
     @ExceptionHandler(UnsuccessfulLoginException.class)
@@ -81,5 +78,12 @@ public class AuthController {
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<Void> handleBadCredentialsException(){
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
+    @ExceptionHandler(DuplicateUserException.class)
+    public ResponseEntity<Map<String,String>> handleDuplicateUser(){
+        return ResponseEntity.badRequest().body(
+                Map.of("Error", "Email is already registered")
+        );
     }
 }
