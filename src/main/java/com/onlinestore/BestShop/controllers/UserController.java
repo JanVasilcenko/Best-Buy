@@ -1,13 +1,15 @@
 package com.onlinestore.BestShop.controllers;
 
+import com.onlinestore.BestShop.exceptions.DuplicateUserException;
+import com.onlinestore.BestShop.model.RegisterUserRequest;
 import com.onlinestore.BestShop.model.User;
 import com.onlinestore.BestShop.services.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,5 +22,18 @@ public class UserController {
         User user = userService.getUserByID(userID);
 
         return user == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(user);
+    }
+
+    @PostMapping
+    public ResponseEntity<?> registerUser(@RequestBody @Valid RegisterUserRequest registerUserRequest){
+        userService.registerUser(registerUserRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    @ExceptionHandler(DuplicateUserException.class)
+    public ResponseEntity<Map<String,String>> handleDuplicateUser(){
+        return ResponseEntity.badRequest().body(
+                Map.of("Error", "Email is already registered")
+        );
     }
 }

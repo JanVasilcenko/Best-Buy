@@ -13,6 +13,7 @@ import java.time.Instant;
 @Table(name = "users")
 public class User {
     @Id
+    @org.hibernate.annotations.UuidGenerator
     @Column(name = "id", nullable = false, length = 36)
     private String id;
 
@@ -22,6 +23,6 @@ public class User {
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, insertable = false, updatable = false)
     private Instant createdAt;
 }
