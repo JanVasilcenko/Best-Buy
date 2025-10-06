@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS users (
+id CHAR(36) NOT NULL,
+email VARCHAR(320) NOT NULL,
+password_hash VARCHAR(255) NOT NULL,
+created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+PRIMARY KEY (id),
+UNIQUE KEY uk_users_email (email)
+);
+
+CREATE TABLE IF NOT EXISTS product (
+id CHAR(36) NOT NULL,
+sku VARCHAR(64) NOT NULL,
+name VARCHAR(255) NOT NULL,
+description TEXT NULL,
+price INT NOT NULL,
+currency CHAR(3) NOT NULL DEFAULT 'CZK',
+quantity INT NOT NULL DEFAULT 0,
+PRIMARY KEY (id),
+UNIQUE KEY uk_product_sku (sku),
+CHECK (price >= 0),
+CHECK (quantity >= 0)
+);

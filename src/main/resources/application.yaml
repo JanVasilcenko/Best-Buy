@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: BestShop
+  datasource:
+    url: jdbc:mysql://localhost:3306/bestshop?createDatabaseIfNotExist=true
+    username: root
+    password: admin
