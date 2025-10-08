@@ -1,0 +1,27 @@
+package com.onlinestore.BestShop.model;
+
+import jakarta.persistence.*;
+import lombok.Data;
+
+import java.time.Instant;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+@Entity
+@Data
+@Table(name = "cart")
+public class Cart {
+    @Id
+    @Column(name = "id", nullable = false, length = 36)
+    private String id;
+
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @Column(name = "created_at", nullable = false)
+    private Instant createdAt;
+
+    @OneToMany(mappedBy = "cart", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    private Set<CartItem> cartItems = new LinkedHashSet<>();
+}

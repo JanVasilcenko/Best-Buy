@@ -15,10 +15,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public User getUserByID(String userId) {
-        return userRepository.findById(userId).orElse(null);
-    }
-
     public void registerUser(RegisterUserRequest registerUserRequest){
          if (userRepository.existsByEmailIgnoreCase(registerUserRequest.getEmail())){
              throw new DuplicateUserException();

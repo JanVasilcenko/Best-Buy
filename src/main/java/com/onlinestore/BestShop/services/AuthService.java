@@ -1,5 +1,6 @@
 package com.onlinestore.BestShop.services;
 
+import com.onlinestore.BestShop.model.CustomUserDetails;
 import com.onlinestore.BestShop.model.LoginRequest;
 import com.onlinestore.BestShop.model.LoginResponse;
 import com.onlinestore.BestShop.model.User;
@@ -29,11 +30,12 @@ public class AuthService {
     }
 
     public LoginResponse login(LoginRequest loginRequest){
-        authenticationManager.authenticate(
+        Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
         );
 
-        User user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow();
+        CustomUserDetails principal = (CustomUserDetails) authentication.getPrincipal();
+        User user = principal.getUser();
 
         String accessToken = jwtService.generateAccessToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);

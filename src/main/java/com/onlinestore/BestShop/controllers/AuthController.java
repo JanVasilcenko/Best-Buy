@@ -3,10 +3,9 @@ package com.onlinestore.BestShop.controllers;
 import com.onlinestore.BestShop.exceptions.DuplicateUserException;
 import com.onlinestore.BestShop.exceptions.UnsuccessfulLoginException;
 import com.onlinestore.BestShop.model.*;
-import com.onlinestore.BestShop.persistence.UserRepository;
 import com.onlinestore.BestShop.services.AuthService;
-import com.onlinestore.BestShop.services.JwtService;
 import com.onlinestore.BestShop.services.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -19,13 +18,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+@Tag(name = "Authentication")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/auth")
 public class AuthController {
 
-    private final JwtService jwtService;
-    private final UserRepository userRepository;
     private final UserService userService;
     private final AuthService authService;
 

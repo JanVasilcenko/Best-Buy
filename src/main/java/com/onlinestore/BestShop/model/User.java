@@ -2,6 +2,7 @@ package com.onlinestore.BestShop.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.time.Instant;
 
@@ -10,7 +11,7 @@ import java.time.Instant;
 @Table(name = "users")
 public class User {
     @Id
-    @org.hibernate.annotations.UuidGenerator
+    @UuidGenerator
     @Column(name = "id", nullable = false, length = 36)
     private String id;
 
