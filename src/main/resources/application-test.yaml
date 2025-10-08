@@ -9,3 +9,8 @@ spring:
       ddl-auto: none
   flyway:
     enabled: false
+  jwt:
+    secret: test-secret-please-ignore
+  dotenv:
+    dotenv:
+      enabled: false
