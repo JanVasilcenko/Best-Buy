@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS orders(
+id CHAR(36) NOT NULL,
+user_id CHAR(36) NOT NULL,
+status ENUM('PENDING', 'PAID', 'CANCELLED', 'REFUNDED') NOT NULL DEFAULT 'PENDING',
+total_price INT NOT NULL,
+currency CHAR(3) NOT NULL DEFAULT 'CZK',
+created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+PRIMARY KEY (id),
+FOREIGN KEY (user_id) REFERENCES users (id)
+);
+
+CREATE TABLE IF NOT EXISTS order_item (
+id CHAR(36) NOT NULL,
+order_id CHAR(36) NOT NULL,
+product_id CHAR(36) NOT NULL,
+quantity INT NOT NULL,
+unit_price INT NOT NULL,
+currency CHAR(3) NOT NULL DEFAULT 'CZK',
+PRIMARY KEY (id),
+FOREIGN KEY (order_id) REFERENCES orders (id),
+FOREIGN KEY (product_id) REFERENCES product (id)
+);

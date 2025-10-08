@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: BestShop
+  datasource:
+    url: ${JDBC_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 1
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  jwt:
+    secret: ${JWT_SECRET}
+    accessTokenExpiration: 300
+    refreshTokenExpiration: 86400
+  server:
+    port: ${PORT:8080}
