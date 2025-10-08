@@ -70,7 +70,7 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>${lombok.version}</version>
-			<scope>annotationProcessor</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springdoc</groupId>
@@ -119,17 +119,17 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.flywaydb</groupId>
-				<artifactId>flyway-maven-plugin</artifactId>
-				<version>11.13.2</version>
-				<configuration>
-					<url>jdbc:mysql://localhost:3306/bestshop?createDatabaseIfNotExist=true</url>
-					<user>root</user>
-					<password>admin</password>
-					<cleanDisabled>false</cleanDisabled>
-				</configuration>
-			</plugin>
+<!--			<plugin>-->
+<!--				<groupId>org.flywaydb</groupId>-->
+<!--				<artifactId>flyway-maven-plugin</artifactId>-->
+<!--				<version>11.13.2</version>-->
+<!--				<configuration>-->
+<!--					<url>jdbc:mysql://localhost:3306/bestshop?createDatabaseIfNotExist=true</url>-->
+<!--					<user>root</user>-->
+<!--					<password>admin</password>-->
+<!--					<cleanDisabled>false</cleanDisabled>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -139,6 +139,7 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
+					<release>17</release>
 					<annotationProcessorPaths>
 						<path>
 							<groupId>org.mapstruct</groupId>
