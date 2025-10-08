@@ -41,6 +41,6 @@ jobs:
           service-routes: "/:8080"
           service-env: |
             SPRING_PROFILES_ACTIVE=prod,
-            JDBC_URL=@JDBC_URL,
-            DB_USERNAME=@DB_USERNAME,
-            DB_PASSWORD=@DB_PASSWORD
+            JDBC_URL=secrets.JDBC_URL,
+            DB_USERNAME=secrets.DB_USERNAME,
+            DB_PASSWORD=secrets.DB_PASSWORD
