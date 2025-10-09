@@ -19,9 +19,9 @@ public class Order {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Lob
-    @Column(name = "status", nullable = false)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 32)
+    private OrderStatus status;
 
     @Column(name = "total_price", nullable = false)
     private Integer totalPrice;
@@ -35,3 +35,4 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private Set<OrderItem> orderItems = new LinkedHashSet<>();
 }
+
