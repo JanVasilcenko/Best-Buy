@@ -44,7 +44,7 @@ jobs:
             JDBC_URL=secrets.JDBC_URL,
             DB_USERNAME=secrets.DB_USERNAME,
             DB_PASSWORD=secrets.DB_PASSWORD,
-            JWT_SECRET=secrets.JWT_SECRET,
+            JWT_SECRET=${{ secrets.JWT_SECRET }},
             SPRING_DATASOURCE_URL=${{ secrets.JDBC_URL }},
             SPRING_DATASOURCE_USERNAME=${{ secrets.DB_USERNAME }},
             SPRING_DATASOURCE_PASSWORD=${{ secrets.DB_PASSWORD }},
