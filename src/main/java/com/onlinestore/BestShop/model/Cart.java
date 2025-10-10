@@ -26,4 +26,8 @@ public class Cart {
 
     @OneToMany(mappedBy = "cart", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     private Set<CartItem> cartItems = new LinkedHashSet<>();
+
+    public void addItem(CartItem cartItem){
+        cartItems.add(cartItem);
+    }
 }

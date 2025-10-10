@@ -61,6 +61,7 @@ public class CartService {
            i.setQuantity(addProductToCartRequest.getQuantity());
            i.setUnitPrice(product.getPrice());
            i.setCreatedAt(Instant.now());
+           cart.addItem(i);
            return i;
         });
 
