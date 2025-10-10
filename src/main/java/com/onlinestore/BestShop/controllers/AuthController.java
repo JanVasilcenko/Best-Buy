@@ -21,7 +21,7 @@ import java.util.Map;
 @Tag(name = "Authentication")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1/auth")
+@RequestMapping("/api/v1/auth")
 public class AuthController {
 
     private final UserService userService;

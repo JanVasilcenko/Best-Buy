@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Admin")
 @RestController()
-@RequestMapping("api/v1/admin")
+@RequestMapping("/api/v1/admin")
 public class AdminController {
 
     @GetMapping("/metrics")
