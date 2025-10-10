@@ -69,7 +69,7 @@ public class AuthController {
     }
 
     @ExceptionHandler(UnsuccessfulLoginException.class)
-    public ResponseEntity<Map<String,String>> handleUserNotFoundException(){
+    public ResponseEntity<Map<String,String>> handleUnsuccessfullLoginException(){
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.Map;
 
 @Tag(name = "Products")
 @RestController
@@ -48,10 +47,5 @@ public class ProductsController {
     public ResponseEntity updateProduct(@RequestBody @Valid ProductPatchRequest productPatchRequest){
         productService.updateProduct(productPatchRequest);
         return ResponseEntity.notFound().build();
-    }
-
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<Map<String, String>> handleNotFoundException(NotFoundException notFoundException){
-        return ResponseEntity.badRequest().body(Map.of("Error", notFoundException.getMessage()));
     }
 }
