@@ -18,11 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
-    private final ProductMapper productPatchMapper;
+    private final ProductMapper productMapper;
 
     public Product createProduct(ProductCreateRequest productCreateRequest){
         Product newProduct = new Product();
-        productPatchMapper.updateFromCreateDto(productCreateRequest, newProduct);
+        productMapper.updateFromCreateDto(productCreateRequest, newProduct);
         return productRepository.save(newProduct);
     }
 
@@ -35,7 +35,7 @@ public class ProductService {
         Product product = productRepository.findById(productPatchRequest.getId()).orElseThrow(
                 () -> new NotFoundException("Product "+productPatchRequest.getId()+" not found"));
 
-        productPatchMapper.productPatchRequestToProduct(productPatchRequest, product);
+        productMapper.productPatchRequestToProduct(productPatchRequest, product);
 
         productRepository.save(product);
     }
