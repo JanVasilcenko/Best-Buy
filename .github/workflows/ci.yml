@@ -1,14 +1,14 @@
-name: CI (Spring + MySQL, Java 17)
+name: CI + CD
 
 on:
   push:
   pull_request:
 
 jobs:
-  test:
+  ci:
+    name: CI (Build & Test)
     runs-on: ubuntu-latest
     timeout-minutes: 20
-
     steps:
       - uses: actions/checkout@v4
 
@@ -19,5 +19,51 @@ jobs:
           java-version: '17'
           cache: maven
 
-      - name: Build & test (Maven)
-        run: mvn -B -DskipITs=false clean verify
+      - name: Build & test
+        run: ./mvnw -B -DskipITs=false clean verify
+
+  cd:
+    name: CD (Koyeb, Java 17)
+    needs: ci
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    concurrency:
+      group: "koyeb-${{ github.ref_name }}"
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+        - name: Install Koyeb CLI
+          uses: koyeb-community/koyeb-actions@v2
+          with:
+            api_token: ${{ secrets.KOYEB_API_TOKEN }}
+
+        - name: Deploy service
+          uses: koyeb/action-git-deploy@v1
+          with:
+            app-name: spring-app
+            service-name: backend
+            git-builder: docker
+            git-docker-dockerfile: Dockerfile
+            service-instance-type: free
+            service-regions: fra
+            service-ports: "8080:http"
+            service-routes: "/:8080"
+            service-env: |
+                SPRING_PROFILES_ACTIVE=prod,
+                JDBC_URL=secrets.JDBC_URL,
+                DB_USERNAME=secrets.DB_USERNAME,
+                DB_PASSWORD=secrets.DB_PASSWORD,
+                JWT_SECRET=${{ secrets.JWT_SECRET }},
+                SPRING_DATASOURCE_URL=${{ secrets.JDBC_URL }},
+                SPRING_DATASOURCE_USERNAME=${{ secrets.DB_USERNAME }},
+                SPRING_DATASOURCE_PASSWORD=${{ secrets.DB_PASSWORD }},
+                SPRING_DOTENV_ENABLED=false
