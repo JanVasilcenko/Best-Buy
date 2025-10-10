@@ -51,7 +51,7 @@ public class CartService {
            Cart c = new Cart();
            c.setUser(currentUser);
            c.setCreatedAt(Instant.now());
-           return c;
+           return cartRepository.save(c);
         });
 
         CartItem cartItem = cartItemRepository.findByCart_IdAndProduct_Id(cart.getId(), product.getId()).orElseGet(()->{

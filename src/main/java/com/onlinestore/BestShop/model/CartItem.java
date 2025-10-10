@@ -1,13 +1,16 @@
 package com.onlinestore.BestShop.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.Instant;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name = "cart_item")
 public class CartItem {
     @Id

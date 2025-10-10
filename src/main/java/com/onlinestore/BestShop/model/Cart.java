@@ -1,7 +1,7 @@
 package com.onlinestore.BestShop.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.Instant;
@@ -9,7 +9,10 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name = "cart")
 public class Cart {
     @Id
@@ -28,6 +31,7 @@ public class Cart {
     private Set<CartItem> cartItems = new LinkedHashSet<>();
 
     public void addItem(CartItem cartItem){
+        cartItem.setCart(this);
         cartItems.add(cartItem);
     }
 }
