@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+
 @Service
 @RequiredArgsConstructor
 public class CartService {
@@ -48,6 +50,7 @@ public class CartService {
         Cart cart = cartRepository.findByUser_EmailIgnoreCase(currentUser.getEmail()).orElseGet(()->{
            Cart c = new Cart();
            c.setUser(currentUser);
+           c.setCreatedAt(Instant.now());
            return c;
         });
 
@@ -57,6 +60,7 @@ public class CartService {
            i.setProduct(product);
            i.setQuantity(addProductToCartRequest.getQuantity());
            i.setUnitPrice(product.getPrice());
+           i.setCreatedAt(Instant.now());
            return i;
         });
 
