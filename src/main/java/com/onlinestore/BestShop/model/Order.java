@@ -2,6 +2,7 @@ package com.onlinestore.BestShop.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.time.Instant;
 import java.util.LinkedHashSet;
@@ -12,6 +13,7 @@ import java.util.Set;
 @Table(name = "orders")
 public class Order {
     @Id
+    @UuidGenerator
     @Column(name = "id", nullable = false, length = 36)
     private String id;
 

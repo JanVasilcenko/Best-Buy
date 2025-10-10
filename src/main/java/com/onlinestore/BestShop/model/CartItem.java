@@ -2,6 +2,7 @@ package com.onlinestore.BestShop.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.time.Instant;
 
@@ -10,6 +11,7 @@ import java.time.Instant;
 @Table(name = "cart_item")
 public class CartItem {
     @Id
+    @UuidGenerator
     @Column(name = "id", nullable = false, length = 36)
     private String id;
 

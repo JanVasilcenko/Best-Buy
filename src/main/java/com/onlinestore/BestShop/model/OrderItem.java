@@ -2,12 +2,14 @@ package com.onlinestore.BestShop.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.UuidGenerator;
 
 @Entity
 @Data
 @Table(name = "order_item")
 public class OrderItem {
     @Id
+    @UuidGenerator
     @Column(name = "id", nullable = false, length = 36)
     private String id;
 
