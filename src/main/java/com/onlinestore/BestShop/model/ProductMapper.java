@@ -1,6 +1,7 @@
 package com.onlinestore.BestShop.model;
 
 import com.onlinestore.BestShop.model.dto.ProductCreateRequest;
+import com.onlinestore.BestShop.model.dto.ProductDto;
 import com.onlinestore.BestShop.model.dto.ProductPatchRequest;
 import org.mapstruct.*;
 
@@ -12,4 +13,7 @@ public interface ProductMapper {
 
     @BeanMapping(resultType = Product.class)
     void updateFromCreateDto(ProductCreateRequest src, @MappingTarget Product dest);
+
+    @BeanMapping(resultType = ProductDto.class)
+    void updateFromProductProductDto(Product src, @MappingTarget ProductDto dest);
 }

@@ -2,7 +2,9 @@ package com.onlinestore.BestShop.controllers;
 
 import com.onlinestore.BestShop.exceptions.NotFoundException;
 import com.onlinestore.BestShop.model.Product;
+import com.onlinestore.BestShop.model.ProductMapper;
 import com.onlinestore.BestShop.model.dto.ProductCreateRequest;
+import com.onlinestore.BestShop.model.dto.ProductDto;
 import com.onlinestore.BestShop.model.dto.ProductPatchRequest;
 import com.onlinestore.BestShop.services.ProductService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -10,6 +12,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.web.PagedModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -21,6 +24,7 @@ import java.net.URI;
 @RequestMapping("/api/v1/products")
 public class ProductsController {
     private final ProductService productService;
+    private final ProductMapper productMapper;
 
     @GetMapping
     public ResponseEntity<PagedModel<Product>> getProducts(@RequestParam(value = "search") String search, @RequestParam(value = "page") Integer page, @RequestParam(value = "size") Integer size){
@@ -28,12 +32,14 @@ public class ProductsController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProduct(@PathVariable(value = "id") String id){
+    public ResponseEntity<ProductDto> getProduct(@PathVariable(value = "id") String id){
         Product product = productService.getProductByID(id);
         if (product == null)
             return ResponseEntity.notFound().build();
+        ProductDto productDto = new ProductDto();
+        productMapper.updateFromProductProductDto(product, productDto);
 
-        return ResponseEntity.ok(product);
+        return ResponseEntity.ok(productDto);
     }
 
     @PostMapping
