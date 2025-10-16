@@ -22,7 +22,8 @@ jobs:
         run: chmod +x mvnw
       - name: Build & test
         env:
-          STRIPE_KEY: ${{ secrets.STRIPE_KEY}}
+          STRIPE_KEY: ${{ secrets.STRIPE_KEY }}
+          STRIPE_WEBHOOK_SECRET_KEY: ${{ secrets.STRIPE_WEBHOOK_SECRET_KEY }}
         run: ./mvnw -B -DskipITs=false clean verify
 
   cd:
@@ -70,4 +71,5 @@ jobs:
                 SPRING_DATASOURCE_USERNAME=${{ secrets.DB_USERNAME }},
                 SPRING_DATASOURCE_PASSWORD=${{ secrets.DB_PASSWORD }},
                 STRIPE_SECRETKEY=${{secrets.STRIPE_KEY}},
+                STRIPE_WEBHOOK_SECRET_KEY=${{secrets.STRIPE_WEBHOOK_SECRET_KEY}}
                 SPRING_DOTENV_ENABLED=false
