@@ -53,7 +53,7 @@ public class CartService {
            return cartRepository.save(c);
         });
 
-        cart.addItem(product);
+        cart.addItem(product, addProductToCartRequest.getQuantity());
 
         cartRepository.save(cart);
         return cart;

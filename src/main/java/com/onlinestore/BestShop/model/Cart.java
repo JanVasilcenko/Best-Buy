@@ -29,7 +29,7 @@ public class Cart {
     @org.hibernate.annotations.Generated
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "cart", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "cart", cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}, orphanRemoval = true)
     private Set<CartItem> cartItems = new LinkedHashSet<>();
 
     public CartItem getItem(String productId) {
@@ -37,7 +37,11 @@ public class Cart {
                 .findFirst().orElse(null);
     }
 
-    public CartItem addItem(Product product) {
+    public CartItem addItem(Product product){
+        return addItem(product, 1);
+    }
+
+    public CartItem addItem(Product product, int quantity) {
         CartItem cartItem = getItem(product.getId());
         if (cartItem != null) {
             cartItem.setQuantity(cartItem.getQuantity() + 1);
@@ -45,7 +49,7 @@ public class Cart {
             cartItem = new CartItem();
             cartItem.setProduct(product);
             cartItem.setUnitPrice(product.getPrice());
-            cartItem.setQuantity(product.getQuantity());
+            cartItem.setQuantity(quantity);
             cartItem.setCart(this);
             cartItems.add(cartItem);
         }
