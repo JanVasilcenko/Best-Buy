@@ -20,13 +20,16 @@ public class CartService {
     private final AuthService authService;
     private final CartMapper cartMapper;
 
-    public Cart getCart(){
+    public CartDto getCart(){
         User currentUser = authService.getCurrentUser();
 
         if (currentUser == null)
             throw new NotFoundException("Current user does not exist");
 
-        return cartRepository.findByUser_EmailIgnoreCase(currentUser.getEmail()).orElseThrow(() -> new NotFoundException("Current user does not have any cart"));
+        Cart cart = cartRepository.findByUser_EmailIgnoreCase(currentUser.getEmail()).orElseThrow(() -> new NotFoundException("Current user does not have any cart"));
+        CartDto cartDto = new CartDto();
+        cartMapper.updateFromCart(cart, cartDto);
+        return cartDto;
     }
 
     @Transactional
