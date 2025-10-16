@@ -2,9 +2,12 @@ package com.onlinestore.BestShop.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.generator.EventType;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -33,5 +36,6 @@ public class CartItem {
     private Integer unitPrice;
 
     @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
+    @org.hibernate.annotations.Generated
+    private LocalDateTime createdAt;
 }

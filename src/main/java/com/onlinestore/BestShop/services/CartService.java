@@ -50,20 +50,10 @@ public class CartService {
         Cart cart = cartRepository.findByUser_EmailIgnoreCase(currentUser.getEmail()).orElseGet(()->{
            Cart c = new Cart();
            c.setUser(currentUser);
-           c.setCreatedAt(Instant.now());
            return cartRepository.save(c);
         });
 
-        CartItem cartItem = cartItemRepository.findByCart_IdAndProduct_Id(cart.getId(), product.getId()).orElseGet(()->{
-           CartItem i = new CartItem();
-           i.setCart(cart);
-           i.setProduct(product);
-           i.setQuantity(addProductToCartRequest.getQuantity());
-           i.setUnitPrice(product.getPrice());
-           i.setCreatedAt(Instant.now());
-           cart.addItem(i);
-           return i;
-        });
+        cart.addItem(product);
 
         cartRepository.save(cart);
         return cart;

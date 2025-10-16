@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -25,13 +26,29 @@ public class Cart {
     private User user;
 
     @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
+    @org.hibernate.annotations.Generated
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "cart", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     private Set<CartItem> cartItems = new LinkedHashSet<>();
 
-    public void addItem(CartItem cartItem){
-        cartItem.setCart(this);
-        cartItems.add(cartItem);
+    public CartItem getItem(String productId) {
+        return cartItems.stream().filter(item -> item.getProduct().getId().equals(productId))
+                .findFirst().orElse(null);
+    }
+
+    public CartItem addItem(Product product) {
+        CartItem cartItem = getItem(product.getId());
+        if (cartItem != null) {
+            cartItem.setQuantity(cartItem.getQuantity() + 1);
+        } else {
+            cartItem = new CartItem();
+            cartItem.setProduct(product);
+            cartItem.setUnitPrice(product.getPrice());
+            cartItem.setQuantity(product.getQuantity());
+            cartItem.setCart(this);
+            cartItems.add(cartItem);
+        }
+        return cartItem;
     }
 }

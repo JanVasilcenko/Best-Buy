@@ -2,9 +2,11 @@ package com.onlinestore.BestShop.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -32,9 +34,10 @@ public class Order {
     private String currency;
 
     @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
+    @Generated
+    private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
     private Set<OrderItem> orderItems = new LinkedHashSet<>();
 }
 
