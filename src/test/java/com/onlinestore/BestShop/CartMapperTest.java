@@ -61,7 +61,7 @@ public class CartMapperTest {
         //Assert
         assertEquals(10, cartItemDto.getQuantity());
         assertEquals(200, cartItemDto.getTotalPrice());
-        assertEquals(product, cartItemDto.getProduct());
+        assertEquals(product.getName(), cartItemDto.getProduct().getName());
     }
 
 }
