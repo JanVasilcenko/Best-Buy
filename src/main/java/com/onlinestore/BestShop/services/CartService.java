@@ -20,6 +20,7 @@ public class CartService {
     private final AuthService authService;
     private final CartMapper cartMapper;
 
+    @Transactional
     public CartDto getCart(){
         User currentUser = authService.getCurrentUser();
 
