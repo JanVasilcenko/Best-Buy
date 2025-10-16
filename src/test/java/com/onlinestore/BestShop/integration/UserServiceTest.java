@@ -1,11 +1,6 @@
 package com.onlinestore.BestShop.integration;
 
-import com.onlinestore.BestShop.user.DuplicateUserException;
-import com.onlinestore.BestShop.user.RegisterUserRequest;
-import com.onlinestore.BestShop.user.Role;
-import com.onlinestore.BestShop.user.User;
-import com.onlinestore.BestShop.user.UserRepository;
-import com.onlinestore.BestShop.user.UserService;
+import com.onlinestore.BestShop.user.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

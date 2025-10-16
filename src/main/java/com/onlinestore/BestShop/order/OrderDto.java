@@ -1,6 +1,5 @@
 package com.onlinestore.BestShop.order;
 
-import com.onlinestore.BestShop.order.OrderStatus;
 import lombok.Data;
 
 import java.time.LocalDateTime;

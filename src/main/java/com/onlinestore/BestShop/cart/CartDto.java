@@ -1,6 +1,5 @@
 package com.onlinestore.BestShop.cart;
 
-import com.onlinestore.BestShop.cart.CartItemDto;
 import lombok.Data;
 
 import java.util.ArrayList;

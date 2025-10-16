@@ -1,7 +1,5 @@
 package com.onlinestore.BestShop.order;
 
-import com.onlinestore.BestShop.order.OrderStatus;
-import com.onlinestore.BestShop.order.PaymentService;
 import com.stripe.exception.SignatureVerificationException;
 import com.stripe.model.Event;
 import com.stripe.model.PaymentIntent;

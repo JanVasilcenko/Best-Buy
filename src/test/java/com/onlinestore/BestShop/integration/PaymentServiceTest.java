@@ -2,12 +2,12 @@ package com.onlinestore.BestShop.integration;
 
 import com.onlinestore.BestShop.exceptions.NotFoundException;
 import com.onlinestore.BestShop.order.Order;
+import com.onlinestore.BestShop.order.OrderRepository;
 import com.onlinestore.BestShop.order.OrderStatus;
+import com.onlinestore.BestShop.order.PaymentService;
 import com.onlinestore.BestShop.user.Role;
 import com.onlinestore.BestShop.user.User;
-import com.onlinestore.BestShop.order.OrderRepository;
 import com.onlinestore.BestShop.user.UserRepository;
-import com.onlinestore.BestShop.order.PaymentService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

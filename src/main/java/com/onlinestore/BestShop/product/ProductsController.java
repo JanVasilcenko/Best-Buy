@@ -1,11 +1,5 @@
 package com.onlinestore.BestShop.product;
 
-import com.onlinestore.BestShop.product.Product;
-import com.onlinestore.BestShop.product.ProductMapper;
-import com.onlinestore.BestShop.product.ProductCreateRequest;
-import com.onlinestore.BestShop.product.ProductDto;
-import com.onlinestore.BestShop.product.ProductPatchRequest;
-import com.onlinestore.BestShop.product.ProductService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

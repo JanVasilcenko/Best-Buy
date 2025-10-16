@@ -1,7 +1,5 @@
 package com.onlinestore.BestShop.order;
 
-import com.onlinestore.BestShop.order.OrderItem;
-import com.onlinestore.BestShop.order.OrderStatus;
 import com.onlinestore.BestShop.user.User;
 import jakarta.persistence.*;
 import lombok.Data;

@@ -1,6 +1,5 @@
 package com.onlinestore.BestShop.user;
 
-import com.onlinestore.BestShop.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

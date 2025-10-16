@@ -3,7 +3,10 @@ package com.onlinestore.BestShop.cart;
 import com.onlinestore.BestShop.product.Product;
 import com.onlinestore.BestShop.user.User;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;

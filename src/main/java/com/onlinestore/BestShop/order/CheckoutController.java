@@ -1,10 +1,5 @@
 package com.onlinestore.BestShop.order;
 
-import com.onlinestore.BestShop.order.PaymentException;
-import com.onlinestore.BestShop.order.Order;
-import com.onlinestore.BestShop.order.CheckoutResponse;
-import com.onlinestore.BestShop.order.OrderDto;
-import com.onlinestore.BestShop.order.CheckoutService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.web.PagedModel;

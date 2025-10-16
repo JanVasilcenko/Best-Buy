@@ -1,10 +1,6 @@
 package com.onlinestore.BestShop.unit;
 
-import com.onlinestore.BestShop.product.Product;
-import com.onlinestore.BestShop.product.ProductMapper;
-import com.onlinestore.BestShop.product.ProductCreateRequest;
-import com.onlinestore.BestShop.product.ProductDto;
-import com.onlinestore.BestShop.product.ProductPatchRequest;
+import com.onlinestore.BestShop.product.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

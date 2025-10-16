@@ -1,20 +1,16 @@
 package com.onlinestore.BestShop.integration;
 
+import com.onlinestore.BestShop.auth.AuthService;
 import com.onlinestore.BestShop.cart.Cart;
-import com.onlinestore.BestShop.exceptions.NotFoundException;
-import com.onlinestore.BestShop.order.PaymentException;
-import com.onlinestore.BestShop.order.CheckoutRequest;
-import com.onlinestore.BestShop.order.CheckoutResponse;
 import com.onlinestore.BestShop.cart.CartRepository;
+import com.onlinestore.BestShop.cart.CartService;
+import com.onlinestore.BestShop.exceptions.NotFoundException;
 import com.onlinestore.BestShop.order.*;
 import com.onlinestore.BestShop.product.Product;
 import com.onlinestore.BestShop.product.ProductRepository;
 import com.onlinestore.BestShop.user.Role;
 import com.onlinestore.BestShop.user.User;
 import com.onlinestore.BestShop.user.UserRepository;
-import com.onlinestore.BestShop.auth.AuthService;
-import com.onlinestore.BestShop.cart.CartService;
-import com.onlinestore.BestShop.order.CheckoutService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,11 +1,7 @@
 package com.onlinestore.BestShop.integration;
 
 import com.onlinestore.BestShop.exceptions.NotFoundException;
-import com.onlinestore.BestShop.product.Product;
-import com.onlinestore.BestShop.product.ProductCreateRequest;
-import com.onlinestore.BestShop.product.ProductPatchRequest;
-import com.onlinestore.BestShop.product.ProductRepository;
-import com.onlinestore.BestShop.product.ProductService;
+import com.onlinestore.BestShop.product.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

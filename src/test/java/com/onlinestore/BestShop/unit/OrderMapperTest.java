@@ -1,9 +1,9 @@
 package com.onlinestore.BestShop.unit;
 
 import com.onlinestore.BestShop.order.Order;
+import com.onlinestore.BestShop.order.OrderDto;
 import com.onlinestore.BestShop.order.OrderMapper;
 import com.onlinestore.BestShop.order.OrderStatus;
-import com.onlinestore.BestShop.order.OrderDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
