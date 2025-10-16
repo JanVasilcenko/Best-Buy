@@ -1,8 +1,10 @@
 package com.onlinestore.BestShop.model.dto;
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Data
+@RequiredArgsConstructor
 public class CheckoutResponse {
     private String orderId;
     private String paymentIntentClientSecret;
