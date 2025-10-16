@@ -69,5 +69,5 @@ jobs:
                 SPRING_DATASOURCE_URL=${{ secrets.JDBC_URL }},
                 SPRING_DATASOURCE_USERNAME=${{ secrets.DB_USERNAME }},
                 SPRING_DATASOURCE_PASSWORD=${{ secrets.DB_PASSWORD }},
-                STRIPE_SECRET_KEY=${{secrets.STRIPE_KEY}},
+                STRIPE_SECRETKEY=${{secrets.STRIPE_KEY}},
                 SPRING_DOTENV_ENABLED=false
