@@ -45,7 +45,7 @@ public class CartMapperTest {
     void mapsAllFieldsCartItemToCartItemDto() {
 
         Product product = new Product();
-        product.setId("A");
+        product.setName("Product");
 
         //Arrange
         CartItem cartItem = new CartItem();

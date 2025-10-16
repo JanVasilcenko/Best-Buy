@@ -1,7 +1,6 @@
 package com.onlinestore.BestShop.controllers;
 
 import com.onlinestore.BestShop.exceptions.RequestExceedingStockException;
-import com.onlinestore.BestShop.model.Cart;
 import com.onlinestore.BestShop.model.dto.AddProductToCartRequest;
 import com.onlinestore.BestShop.model.dto.CartDto;
 import com.onlinestore.BestShop.services.CartService;
