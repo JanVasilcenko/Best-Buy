@@ -9,7 +9,6 @@ import com.onlinestore.BestShop.product.ProductService;
 import com.onlinestore.BestShop.user.Role;
 import com.onlinestore.BestShop.user.User;
 import com.onlinestore.BestShop.user.UserRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,6 +26,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @ActiveProfiles("test")
+@Transactional
 public class CartServiceTest {
     @Autowired
     CartService cartService;
@@ -45,14 +45,6 @@ public class CartServiceTest {
     ProductService productService;
     @MockitoBean
     CartMapper cartMapper;
-
-    @AfterEach
-    void cleanup() {
-        cartItemRepository.deleteAll();
-        cartRepository.deleteAll();
-        userRepository.deleteAll();
-        productRepository.deleteAll();
-    }
 
     @Test
     @Transactional

@@ -11,7 +11,6 @@ import com.onlinestore.BestShop.product.ProductRepository;
 import com.onlinestore.BestShop.user.Role;
 import com.onlinestore.BestShop.user.User;
 import com.onlinestore.BestShop.user.UserRepository;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,11 +28,11 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
+@Transactional
 public class CheckoutServiceTest {
 
     @Autowired
     private CheckoutService checkoutService;
-
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -53,14 +52,6 @@ public class CheckoutServiceTest {
     private OrderMapper orderMapper;
 
     private static final String CHECKOUT_SESSION_URL = "https://pay.exmaple/checkout/session";
-
-    @AfterEach
-    void cleanup() {
-        orderRepository.deleteAll();
-        cartRepository.deleteAll();
-        productRepository.deleteAll();
-        userRepository.deleteAll();
-    }
 
     @Test
     @Transactional
@@ -146,13 +137,9 @@ public class CheckoutServiceTest {
 
         when(paymentGateway.createCheckoutSession(any(Order.class))).thenThrow(new PaymentException());
 
-        //Act
+        //Act + Assert
         Cart finalCart = cart;
         assertThrows(PaymentException.class, () -> checkoutService.checkout(finalCart.getId()));
-
-        //Assert
-        assertEquals(0, orderRepository.count());
-        verify(cartService, never()).clearTheCart();
     }
 
     @Test

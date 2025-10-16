@@ -2,12 +2,12 @@ package com.onlinestore.BestShop.integration;
 
 import com.onlinestore.BestShop.exceptions.NotFoundException;
 import com.onlinestore.BestShop.product.*;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.web.PagedModel;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,14 +15,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
+@Transactional
 public class ProductServiceTest {
     @Autowired private ProductService productService;
     @Autowired private ProductRepository productRepository;
-
-    @AfterEach
-    void cleanup(){
-        productRepository.deleteAll();
-    }
 
     @Test
     void createProduct(){
