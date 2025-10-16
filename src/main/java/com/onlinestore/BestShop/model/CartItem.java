@@ -38,4 +38,8 @@ public class CartItem {
     @Column(name = "created_at", nullable = false)
     @org.hibernate.annotations.Generated
     private LocalDateTime createdAt;
+
+    public Long getTotalPrice(){
+        return Long.valueOf(quantity * unitPrice);
+    }
 }

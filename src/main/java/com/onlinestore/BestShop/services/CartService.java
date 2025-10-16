@@ -2,19 +2,14 @@ package com.onlinestore.BestShop.services;
 
 import com.onlinestore.BestShop.exceptions.NotFoundException;
 import com.onlinestore.BestShop.exceptions.RequestExceedingStockException;
-import com.onlinestore.BestShop.model.Cart;
-import com.onlinestore.BestShop.model.CartItem;
-import com.onlinestore.BestShop.model.Product;
-import com.onlinestore.BestShop.model.User;
+import com.onlinestore.BestShop.model.*;
 import com.onlinestore.BestShop.model.dto.AddProductToCartRequest;
-import com.onlinestore.BestShop.model.dto.ProductPatchRequest;
+import com.onlinestore.BestShop.model.dto.CartDto;
 import com.onlinestore.BestShop.persistence.CartItemRepository;
 import com.onlinestore.BestShop.persistence.CartRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.Instant;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +18,7 @@ public class CartService {
     private final CartItemRepository cartItemRepository;
     private final ProductService productService;
     private final AuthService authService;
+    private final CartMapper cartMapper;
 
     public Cart getCart(){
         User currentUser = authService.getCurrentUser();
@@ -34,7 +30,7 @@ public class CartService {
     }
 
     @Transactional
-    public Cart addProductToCart(AddProductToCartRequest addProductToCartRequest) {
+    public CartDto addProductToCart(AddProductToCartRequest addProductToCartRequest) {
         User currentUser = authService.getCurrentUser();
 
         if (currentUser == null)
@@ -56,7 +52,9 @@ public class CartService {
         cart.addItem(product, addProductToCartRequest.getQuantity());
 
         cartRepository.save(cart);
-        return cart;
+        CartDto cartDto = new CartDto();
+        cartMapper.updateFromCart(cart,cartDto);
+        return cartDto;
     }
 
     @Transactional

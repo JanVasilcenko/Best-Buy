@@ -55,4 +55,12 @@ public class Cart {
         }
         return cartItem;
     }
+
+    public Long getTotalPrice(){
+        int total = 0;
+        for (CartItem cartItem: cartItems) {
+            total += cartItem.getTotalPrice();
+        }
+        return Long.valueOf(total);
+    }
 }

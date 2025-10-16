@@ -3,6 +3,7 @@ package com.onlinestore.BestShop.controllers;
 import com.onlinestore.BestShop.exceptions.RequestExceedingStockException;
 import com.onlinestore.BestShop.model.Cart;
 import com.onlinestore.BestShop.model.dto.AddProductToCartRequest;
+import com.onlinestore.BestShop.model.dto.CartDto;
 import com.onlinestore.BestShop.services.CartService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -31,9 +32,8 @@ public class CartController {
     }
 
     @PostMapping("items")
-    public ResponseEntity addProductToCart(@RequestBody AddProductToCartRequest addProductToCartRequest) {
-        Cart cart = cartService.addProductToCart(addProductToCartRequest);
-        return ResponseEntity.ok(cart);
+    public ResponseEntity<CartDto> addProductToCart(@RequestBody AddProductToCartRequest addProductToCartRequest) {
+        return ResponseEntity.ok(cartService.addProductToCart(addProductToCartRequest));
     }
 
     @PatchMapping("/items/{itemId}")
