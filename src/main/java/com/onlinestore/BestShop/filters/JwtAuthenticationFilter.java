@@ -1,7 +1,7 @@
 package com.onlinestore.BestShop.filters;
 
-import com.onlinestore.BestShop.model.Role;
-import com.onlinestore.BestShop.services.JwtService;
+import com.onlinestore.BestShop.user.Role;
+import com.onlinestore.BestShop.auth.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

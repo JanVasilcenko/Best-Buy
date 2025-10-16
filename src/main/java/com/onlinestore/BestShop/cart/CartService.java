@@ -1,0 +1,94 @@
+package com.onlinestore.BestShop.cart;
+
+import com.onlinestore.BestShop.exceptions.NotFoundException;
+import com.onlinestore.BestShop.product.Product;
+import com.onlinestore.BestShop.product.ProductService;
+import com.onlinestore.BestShop.auth.AuthService;
+import com.onlinestore.BestShop.user.User;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@RequiredArgsConstructor
+public class CartService {
+    private final CartRepository cartRepository;
+    private final CartItemRepository cartItemRepository;
+    private final ProductService productService;
+    private final AuthService authService;
+    private final CartMapper cartMapper;
+
+    @Transactional
+    public CartDto getCart(){
+        User currentUser = authService.getCurrentUser();
+
+        if (currentUser == null)
+            throw new NotFoundException("Current user does not exist");
+
+        Cart cart = cartRepository.findByUser_EmailIgnoreCase(currentUser.getEmail()).orElseThrow(() -> new NotFoundException("Current user does not have any cart"));
+        CartDto cartDto = new CartDto();
+        cartMapper.updateFromCart(cart, cartDto);
+        return cartDto;
+    }
+
+    @Transactional
+    public CartDto addProductToCart(AddProductToCartRequest addProductToCartRequest) {
+        User currentUser = authService.getCurrentUser();
+
+        if (currentUser == null)
+            throw new NotFoundException("Current user does not exist");
+
+        Product product = productService.getProductByID(addProductToCartRequest.getProductId());
+        if (product == null)
+            throw new NotFoundException("Selected product does not exist");
+
+        if (product.getQuantity() < addProductToCartRequest.getQuantity())
+            throw new RequestExceedingStockException();
+
+        Cart cart = cartRepository.findByUser_EmailIgnoreCase(currentUser.getEmail()).orElseGet(()->{
+           Cart c = new Cart();
+           c.setUser(currentUser);
+           return cartRepository.save(c);
+        });
+
+        cart.addItem(product, addProductToCartRequest.getQuantity());
+
+        cartRepository.save(cart);
+        CartDto cartDto = new CartDto();
+        cartMapper.updateFromCart(cart,cartDto);
+        return cartDto;
+    }
+
+    @Transactional
+    public void clearTheCart(){
+        User currentUser = authService.getCurrentUser();
+
+        if (currentUser == null)
+            throw new NotFoundException("Current user does not exist");
+
+        Cart cart = cartRepository.findByUser_EmailIgnoreCase(currentUser.getEmail()).orElseThrow(() -> new NotFoundException("Cart not found"));
+
+        cart.getCartItems().clear();
+    }
+
+    @Transactional
+    public void changeQuantityOfProduct(String cartItemId, Integer quantity){
+        User currentUser = authService.getCurrentUser();
+        if (currentUser == null)
+            throw new NotFoundException("Current user does not exist");
+
+        CartItem cartItem = cartItemRepository.findById(cartItemId).orElseThrow(() ->{
+            throw new NotFoundException("Selected product does not exist");
+        });
+
+        Product product = productService.getProductByID(cartItem.getProduct().getId());
+        if (product == null)
+            throw new NotFoundException("Product with cartItem does not exist");
+
+        if (product.getQuantity() < quantity)
+            throw new RequestExceedingStockException();
+
+        cartItem.setQuantity(quantity);
+        cartItemRepository.save(cartItem);
+    }
+}

@@ -1,8 +1,7 @@
 package com.onlinestore.BestShop.config;
 
 import com.onlinestore.BestShop.filters.JwtAuthenticationFilter;
-import com.onlinestore.BestShop.model.Role;
-import com.onlinestore.BestShop.services.UserService;
+import com.onlinestore.BestShop.user.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
