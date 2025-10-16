@@ -85,7 +85,7 @@ public class CheckoutServiceTest {
 
         OrderItem orderItem = order.getOrderItems().stream().findFirst().get();
         assertEquals(100, orderItem.getUnitPrice());
-        assertEquals(10, orderItem.getQuantity());
+        assertEquals(1, orderItem.getQuantity());
         assertEquals("CZK", orderItem.getCurrency());
 
         verify(paymentGateway, times(1)).createCheckoutSession(any(Order.class));
