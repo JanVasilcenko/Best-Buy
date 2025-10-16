@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class StripePaymentGateway implements PaymentGateway {
 
-    @Value("${websiteUrl")
+    @Value("${websiteUrl}")
     private String websiteUrl;
 
     @Override
@@ -49,7 +49,7 @@ public class StripePaymentGateway implements PaymentGateway {
     private SessionCreateParams.LineItem.PriceData createPriceData(OrderItem item) {
         return SessionCreateParams.LineItem.PriceData.builder()
                 .setCurrency("czk")
-                .setUnitAmount(Long.valueOf(item.getUnitPrice()))
+                .setUnitAmount(Long.valueOf(item.getUnitPrice() * 100))
                 .setProductData(createProductData(item)
                 ).build();
     }

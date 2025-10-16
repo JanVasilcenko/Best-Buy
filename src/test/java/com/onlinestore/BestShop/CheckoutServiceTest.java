@@ -70,7 +70,7 @@ public class CheckoutServiceTest {
                 .thenReturn(new CheckoutSession(CHECKOUT_SESSION_URL));
 
         //Act
-        CheckoutResponse checkoutResponse = checkoutService.checkout(checkoutRequest);
+        CheckoutResponse checkoutResponse = checkoutService.checkout(checkoutRequest.getId());
 
         //Assert
         assertNotNull(checkoutResponse);

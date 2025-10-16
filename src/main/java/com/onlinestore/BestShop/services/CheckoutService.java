@@ -20,13 +20,15 @@ public class CheckoutService {
     private final AuthService authService;
     private final PaymentGateway paymentGateway;
     private final CartService cartService;
+    private final ProductService productService;
 
     @Value("${websiteUrl")
     private String websiteUrl;
 
     @Transactional(rollbackFor = PaymentException.class)
-    public CheckoutResponse checkout(CheckoutRequest checkoutRequest) throws PaymentException {
-        Cart cart = cartRepository.findById(checkoutRequest.getId()).orElseThrow(() -> new NotFoundException("Cart with specified id does not exist"));
+    public CheckoutResponse checkout(String id) throws PaymentException {
+        System.out.println(id);
+        Cart cart = cartRepository.findById(id).orElseThrow(() -> new NotFoundException("Cart with specified id does not exist"));
 
         if (cart.getCartItems().isEmpty()) {
             throw new IllegalStateException("Cart is empty");
@@ -36,6 +38,7 @@ public class CheckoutService {
         order.setUser(authService.getCurrentUser());
         order.setStatus(OrderStatus.NEW);
         order.setCurrency("CZK");
+        order.setTotalPrice(Math.toIntExact(cart.getTotalPrice()));
 
         cart.getCartItems().forEach(cartItem -> {
             OrderItem orderItem = new OrderItem();
@@ -43,6 +46,7 @@ public class CheckoutService {
             orderItem.setCurrency("CZK");
             orderItem.setUnitPrice(cartItem.getUnitPrice());
             orderItem.setQuantity(cartItem.getQuantity());
+            orderItem.setProduct(cartItem.getProduct());
             order.getOrderItems().add(orderItem);
         });
 
