@@ -26,7 +26,7 @@ public class CheckoutService {
 
     @Transactional(rollbackFor = PaymentException.class)
     public CheckoutResponse checkout(CheckoutRequest checkoutRequest) throws PaymentException {
-        Cart cart = cartRepository.findById(checkoutRequest.getCartId()).orElseThrow(() -> new NotFoundException("Cart with specified id does not exist"));
+        Cart cart = cartRepository.findById(checkoutRequest.getId()).orElseThrow(() -> new NotFoundException("Cart with specified id does not exist"));
 
         if (cart.getCartItems().isEmpty()) {
             throw new IllegalStateException("Cart is empty");

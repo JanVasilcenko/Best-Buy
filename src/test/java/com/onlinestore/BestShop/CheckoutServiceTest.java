@@ -64,7 +64,7 @@ public class CheckoutServiceTest {
         cart = cartRepository.saveAndFlush(cart);
 
         CheckoutRequest checkoutRequest = new CheckoutRequest();
-        checkoutRequest.setCartId(cart.getId());
+        checkoutRequest.setId(cart.getId());
 
         when(paymentGateway.createCheckoutSession(any(Order.class)))
                 .thenReturn(new CheckoutSession(CHECKOUT_SESSION_URL));
